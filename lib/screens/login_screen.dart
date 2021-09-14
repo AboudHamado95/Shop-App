@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shop_app/cache/cache_helper.dart';
 import 'package:shop_app/components/components.dart';
-import 'package:shop_app/cubit/shop_login_cubit.dart';
+import 'package:shop_app/cubit/login_cubit/shop_login_cubit.dart';
 
-import 'package:shop_app/cubit/shop_login_state.dart';
+import 'package:shop_app/cubit/login_cubit/shop_login_state.dart';
 import 'package:shop_app/screens/register_screen.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
+import 'package:shop_app/screens/shop_layout.dart';
 
 // ignore: must_be_immutable
 class LoginScreen extends StatelessWidget {
@@ -17,7 +20,24 @@ class LoginScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => ShopLoginCubit(),
       child: BlocConsumer<ShopLoginCubit, ShopLoginStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is ShopLoginSuccessState) {
+            if (state.loginModel.status) {
+              print(state.loginModel.message);
+              print(state.loginModel.data.token);
+              CacheHelper.saveData(
+                      key: 'token', value: state.loginModel.data.token)
+                  .then((value) {
+                navigateAndFinish(context, ShopLayout());
+              });
+            } else {
+              print(state.loginModel.message);
+              showToast(
+                  message: state.loginModel.message,
+                  state: ToastStates.ERROR);
+            }
+          }
+        },
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(),
@@ -38,7 +58,7 @@ class LoginScreen extends StatelessWidget {
                               .copyWith(color: Colors.black),
                         ),
                         Text(
-                          'login now to browse our hot offers',
+                          'Login now to browse our hot offers',
                           style: Theme.of(context)
                               .textTheme
                               .bodyText1!
@@ -97,7 +117,7 @@ class LoginScreen extends StatelessWidget {
                                   function: () {
                                     navigateTo(context, RegisterScreen());
                                   },
-                                  text: 'skip'),
+                                  text: 'REGISTER'),
                             ]),
                       ],
                     ),

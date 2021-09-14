@@ -23,7 +23,10 @@ class DioHelper {
     String lang = 'ar',
     String? token,
   }) async {
-    dio.options.headers = {'lang': lang,};
+    dio.options.headers = {
+      'lang': lang,
+      'Authorization': token ?? '',
+    };
     return dio.post(url, queryParameters: query, data: data);
   }
 }
