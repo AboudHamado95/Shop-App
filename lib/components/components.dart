@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shop_app/cache/cache_helper.dart';
 import 'package:shop_app/cubit/login_cubit/shop_login_cubit.dart';
+import 'package:shop_app/screens/authentication/login_screen.dart';
 
 void navigateTo(context, widget) {
   Navigator.push(
@@ -111,4 +113,12 @@ Color chooseToastColor(ToastStates state) {
     default:
   }
   return color!;
+}
+
+void signOut(context) {
+  CacheHelper.removeData(key: 'token').then((value) {
+    if (value) {
+      navigateAndFinish(context, LoginScreen());
+    }
+  });
 }

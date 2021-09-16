@@ -6,9 +6,9 @@ import 'package:shop_app/components/components.dart';
 import 'package:shop_app/cubit/login_cubit/shop_login_cubit.dart';
 
 import 'package:shop_app/cubit/login_cubit/shop_login_state.dart';
-import 'package:shop_app/screens/register_screen.dart';
+import 'package:shop_app/screens/authentication/register_screen.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
-import 'package:shop_app/screens/shop_layout.dart';
+import 'package:shop_app/screens/layouts/shop_layout.dart';
 
 // ignore: must_be_immutable
 class LoginScreen extends StatelessWidget {
