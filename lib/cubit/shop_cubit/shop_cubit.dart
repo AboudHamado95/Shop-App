@@ -19,10 +19,9 @@ class ShopCubit extends Cubit<ShopStates> {
   int currentIndex = 0;
 
   List<Widget> bottomScreen = [
+    ProductsScreen(),
     CategoriesScreen(),
     FavoritesScreen(),
-    ProductsScreen(),
-    SearchScreen(),
     SettingsScreen(),
   ];
   List<BottomNavigationBarItem> bottomItem = [
@@ -38,13 +37,13 @@ class ShopCubit extends Cubit<ShopStates> {
 
   String? token = CacheHelper.getData(key: 'token');
 
-  late HomeModel homeModel;
+  HomeModel? homeModel;
   void getHomeData() {
     emit(ShoploadingHomeDataState());
     DioHelper.getData(url: HOME, token: token).then((value) {
       homeModel = HomeModel.fromJson(value.data);
-      print(homeModel.data!.banners[0].image);
-      print(homeModel.status);
+      print(homeModel!.data!.banners[0].image);
+      print(homeModel!.status);
       emit(ShopSuccessHomeDataState());
     }).catchError((error) {
       print(error.toString());
