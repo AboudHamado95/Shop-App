@@ -78,7 +78,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 SmoothPageIndicator(
                     controller: boardController,
                     effect: ExpandingDotsEffect(
-                      activeDotColor: defaulTColor,
+                      activeDotColor: defaultColor,
                       dotColor: Colors.grey,
                       dotHeight: 10.0,
                       expansionFactor: 4.0,

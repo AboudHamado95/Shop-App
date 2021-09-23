@@ -4,7 +4,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:shop_app/styles/colors.dart';
 
 ThemeData lightTheme = ThemeData(
-    primarySwatch: defaulTColor,
+    primarySwatch: defaultColor,
     scaffoldBackgroundColor: Colors.grey[100],
     appBarTheme: AppBarTheme(
         titleSpacing: 20.0,
@@ -18,10 +18,10 @@ ThemeData lightTheme = ThemeData(
         titleTextStyle: TextStyle(
             color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold)),
     floatingActionButtonTheme:
-        FloatingActionButtonThemeData(backgroundColor: defaulTColor),
+        FloatingActionButtonThemeData(backgroundColor: defaultColor),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
-      selectedItemColor: defaulTColor,
+      selectedItemColor: defaultColor,
       unselectedItemColor: Colors.grey,
       elevation: 20.0,
       backgroundColor: Colors.white,
