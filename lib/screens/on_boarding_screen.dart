@@ -31,9 +31,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   ];
   bool isLast = false;
   void submit() {
-    CacheHelper.saveData(key: 'onboarding', value: true);
+    CacheHelper.saveData(key: 'onBoarding', value: true);
     navigateAndFinish(context, LoginScreen());
-  }
+  } 
 
   @override
   Widget build(BuildContext context) {

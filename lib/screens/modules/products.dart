@@ -2,8 +2,10 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shop_app/cubit/shop_cubit/shop_cubit.dart';
 import 'package:shop_app/cubit/shop_cubit/shop_state.dart';
+import 'package:shop_app/models/categories_model.dart';
 import 'package:shop_app/models/home_model.dart';
 import 'package:shop_app/styles/colors.dart';
 
@@ -18,8 +20,10 @@ class ProductsScreen extends StatelessWidget {
         var _cubit = ShopCubit.get(context);
         return Conditional.single(
           context: context,
-          conditionBuilder: (context) => _cubit.homeModel != null,
-          widgetBuilder: (context) => productsBuilder(_cubit.homeModel!),
+          conditionBuilder: (context) =>
+              _cubit.homeModel != null && _cubit.categoriesModel != null,
+          widgetBuilder: (context) =>
+              productsBuilder(_cubit.homeModel!, _cubit.categoriesModel!),
           fallbackBuilder: (context) => Center(
             child: CircularProgressIndicator(),
           ),
@@ -28,15 +32,17 @@ class ProductsScreen extends StatelessWidget {
     );
   }
 
-  Widget productsBuilder(HomeModel model) => SingleChildScrollView(
+  Widget productsBuilder(HomeModel model, CategoriesModel categoriesModel) =>
+      SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CarouselSlider(
                 items: model.data!.banners
                     .map(
                       (e) => Image(
-                        image: NetworkImage('${e.image}'),
+                        image: CachedNetworkImageProvider(e.image),
                         fit: BoxFit.cover,
                       ),
                     )
@@ -54,23 +60,77 @@ class ProductsScreen extends StatelessWidget {
                   viewportFraction: 1.0,
                 )),
             SizedBox(height: 10.0),
-            SingleChildScrollView(
-              child: Container(
-                color: Colors.grey[300],
-                child: GridView.count(
-                  crossAxisCount: 2,
-                  shrinkWrap: true,
-                  mainAxisSpacing: 1.0,
-                  crossAxisSpacing: 1.0,
-                  childAspectRatio: 1 / 1.68,
-                  physics: NeverScrollableScrollPhysics(),
-                  children: List.generate(model.data!.products.length,
-                      (index) => buildGridProduct(model, index)),
-                ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Categories',
+                    style:
+                        TextStyle(fontSize: 24.0, fontWeight: FontWeight.w800),
+                  ),
+                  SizedBox(height: 10.0),
+                  Container(
+                    height: 100.0,
+                    child: ListView.separated(
+                      physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) =>
+                          buildCategoryItem(categoriesModel.data!.data[index]),
+                      separatorBuilder: (context, index) =>
+                          SizedBox(width: 20.0),
+                      itemCount: categoriesModel.data!.data.length,
+                    ),
+                  ),
+                  SizedBox(height: 10.0),
+                  Text(
+                    'New Products',
+                    style:
+                        TextStyle(fontSize: 24.0, fontWeight: FontWeight.w800),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 10.0),
+            Container(
+              color: Colors.grey[300],
+              child: GridView.count(
+                crossAxisCount: 2,
+                shrinkWrap: true,
+                mainAxisSpacing: 1.0,
+                crossAxisSpacing: 1.0,
+                childAspectRatio: 1 / 1.68,
+                physics: NeverScrollableScrollPhysics(),
+                children: List.generate(model.data!.products.length,
+                    (index) => buildGridProduct(model, index)),
               ),
             )
           ],
         ),
+      );
+  Widget buildCategoryItem(DataModel model) => Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Container(
+            height: 100.0,
+            width: 100.0,
+            child: Image(
+              image: CachedNetworkImageProvider(model.image),
+            ),
+          ),
+          Container(
+            color: Colors.black.withOpacity(0.6),
+            width: 100.0,
+            child: Text(
+              model.name,
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
       );
   Widget buildGridProduct(HomeModel model, index) => Container(
         color: Colors.white,
@@ -81,7 +141,8 @@ class ProductsScreen extends StatelessWidget {
               alignment: AlignmentDirectional.bottomStart,
               children: [
                 Image(
-                  image: NetworkImage(model.data!.products[index].image),
+                  image: CachedNetworkImageProvider(
+                      model.data!.products[index].image),
                   width: double.infinity,
                   height: 180.0,
                 ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/cache/cache_helper.dart';
 import 'package:shop_app/cubit/shop_cubit/shop_state.dart';
+import 'package:shop_app/models/categories_model.dart';
 import 'package:shop_app/models/home_model.dart';
 import 'package:shop_app/networks/dio_helper.dart';
 import 'package:shop_app/networks/end_points.dart';
@@ -48,6 +49,18 @@ class ShopCubit extends Cubit<ShopStates> {
     }).catchError((error) {
       print(error.toString());
       emit(ShopErrorHomeDataState(error));
+    });
+  }
+
+  CategoriesModel? categoriesModel;
+  void getCategories() {
+    emit(ShoploadingCategoriesState());
+    DioHelper.getData(url: CATEGORIES, token: token).then((value) {
+      categoriesModel = CategoriesModel.fromJson(value.data);
+      emit(ShopSuccessCategoriesState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(ShopErrorCategoriesState(error));
     });
   }
 }
