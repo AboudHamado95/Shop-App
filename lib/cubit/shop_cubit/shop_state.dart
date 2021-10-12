@@ -1,3 +1,5 @@
+import 'package:shop_app/models/change_favorite_model.dart';
+
 abstract class ShopStates {}
 
 class ShopInitialState extends ShopStates {}
@@ -18,8 +20,32 @@ class ShoploadingCategoriesState extends ShopStates {}
 
 class ShopSuccessCategoriesState extends ShopStates {}
 
-class ShopErrorCategoriesState extends ShopStates { 
+class ShopErrorCategoriesState extends ShopStates {
   final error;
 
   ShopErrorCategoriesState(this.error);
+}
+
+class ShopChangeFavoritesState extends ShopStates {}
+
+class ShopSuccessChangeFavoritesState extends ShopStates {
+  final ChangeFavoriteModel model;
+
+  ShopSuccessChangeFavoritesState(this.model);
+}
+
+class ShopErrorChangeFavoritesState extends ShopStates {
+  final error;
+
+  ShopErrorChangeFavoritesState(this.error);
+}
+
+class ShoploadingGetFavoritesState extends ShopStates {}
+
+class ShopSuccessGetFavoritesState extends ShopStates {}
+
+class ShopErrorGetFavoritesState extends ShopStates {
+  final String error;
+
+  ShopErrorGetFavoritesState(this.error);
 }
