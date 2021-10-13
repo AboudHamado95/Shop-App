@@ -1,4 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shop_app/components/components.dart';
+import 'package:shop_app/screens/authentication/login_screen.dart';
 
 class CacheHelper {
   static late SharedPreferences sharedPreferences;
@@ -28,6 +30,16 @@ class CacheHelper {
   static Future<bool> removeData({
     required String key,
   }) async {
-   return await sharedPreferences.remove(key);
+    return await sharedPreferences.remove(key);
+  }
+
+  static String? token;
+
+  static signOut(context) {
+    CacheHelper.removeData(key: 'token').then((value) {
+      if (value) {
+        navigateAndFinish(context, LoginScreen());
+      }
+    });
   }
 }

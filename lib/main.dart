@@ -20,11 +20,11 @@ main(List<String> args) async {
   Widget? widget;
   bool? isDark = CacheHelper.getData(key: 'isDark');
   var isBoarding = CacheHelper.getData(key: 'onBoarding');
-  String? token = CacheHelper.getData(key: 'token');
+  CacheHelper.token = CacheHelper.getData(key: 'token');
 
   if (isBoarding != null) {
-    if (token != null) {
-      widget = ShopLayout();  
+    if (CacheHelper.token != null) {
+      widget = ShopLayout();
     } else {
       widget = LoginScreen();
     }
@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
   const MyApp({
     Key? key,
     required this.isDark,
-    required this.startWidget,  
+    required this.startWidget,
   }) : super(key: key);
 
   @override
@@ -52,7 +52,11 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => ShopCubit()..getHomeData()..getCategories()..getFavorites(),
+          create: (context) => ShopCubit()
+            ..getHomeData()
+            ..getCategories()
+            ..getFavorites()
+            ..getUserData(),
         ),
       ],
       child: MaterialApp(

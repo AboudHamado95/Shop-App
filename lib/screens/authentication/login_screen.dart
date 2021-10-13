@@ -28,13 +28,13 @@ class LoginScreen extends StatelessWidget {
               CacheHelper.saveData(
                       key: 'token', value: state.loginModel.data.token)
                   .then((value) {
+                CacheHelper.token = state.loginModel.data.token;
                 navigateAndFinish(context, ShopLayout());
               });
             } else {
               print(state.loginModel.message);
               showToast(
-                  message: state.loginModel.message,
-                  state: ToastStates.ERROR);
+                  message: state.loginModel.message, state: ToastStates.ERROR);
             }
           }
         },

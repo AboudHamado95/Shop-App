@@ -115,13 +115,7 @@ Color chooseToastColor(ToastStates state) {
   return color!;
 }
 
-void signOut(context) {
-  CacheHelper.removeData(key: 'token').then((value) {
-    if (value) {
-      navigateAndFinish(context, LoginScreen());
-    }
-  });
-}
+
 
 Widget myDivider() => Padding(
       padding: EdgeInsetsDirectional.only(start: 20.0),
