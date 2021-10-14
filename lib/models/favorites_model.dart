@@ -12,7 +12,7 @@ class FavoritesModel {
 
 class Data {
   late int currentPage;
-  late List<FavoritesData> data;
+  late List<FavoritesData> data = [];
   late String firstPageUrl;
   late int from;
   late int lastPage;
@@ -50,7 +50,7 @@ class FavoritesData {
   late Product product;
 
   FavoritesData.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['id'] ?? 0;
     product = (json['product'] != null
         ? new Product.fromJson(json['product'])
         : null)!;

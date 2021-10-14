@@ -17,19 +17,23 @@ class FavoritesScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         var _cubit = ShopCubit.get(context);
-        return Conditional.single(context: context, 
-        conditionBuilder: (context) => state is! ShoploadingGetFavoritesState , 
+        return Conditional.single(
+          context: context,
+          conditionBuilder: (context) => state is! ShoploadingGetFavoritesState,
           widgetBuilder: (context) => ListView.separated(
-            itemBuilder: (context, index) =>
-                buildFavItem(_cubit.favoritesModel!.data.data[index],context),
-            separatorBuilder: (context, index) => myDivider(),
-            itemCount: _cubit.favoritesModel!.data.data.length),
-             fallbackBuilder: (context) => Center(child: CircularProgressIndicator(),),);
+              itemBuilder: (context, index) => buildFavItem(
+                  _cubit.favoritesModel!.data.data[index], context),
+              separatorBuilder: (context, index) => myDivider(),
+              itemCount: _cubit.favoritesModel!.data.data.length),
+          fallbackBuilder: (context) => Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
       },
     );
   }
 
-  Widget buildFavItem(FavoritesData model,context) => Padding(
+  Widget buildFavItem(FavoritesData model, context) => Padding(
         padding: const EdgeInsets.all(20.0),
         child: Container(
           height: 120.0,
@@ -40,8 +44,7 @@ class FavoritesScreen extends StatelessWidget {
                 alignment: AlignmentDirectional.bottomStart,
                 children: [
                   Image(
-                    image: CachedNetworkImageProvider(
-                        model.product.image),
+                    image: CachedNetworkImageProvider(model.product.image),
                     width: 120.0,
                     height: 120.0,
                     fit: BoxFit.cover,
@@ -102,16 +105,14 @@ class FavoritesScreen extends StatelessWidget {
                         IconButton(
                           padding: EdgeInsets.zero,
                           onPressed: () {
-                            ShopCubit.get(context).changeFavorites(
-                                model.product.id);
+                            ShopCubit.get(context)
+                                .changeFavorites(model.product.id);
                           },
                           icon: CircleAvatar(
-                            backgroundColor:
-                             ShopCubit.get(context)
+                            backgroundColor: ShopCubit.get(context)
                                     .favorites[model.product.id]!
                                 ? defaultColor
-                                :
-                                 Colors.grey,
+                                : Colors.grey,
                             radius: 15.0,
                             child: Icon(
                               Icons.favorite_border_outlined,

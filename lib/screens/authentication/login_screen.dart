@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shop_app/Constants/constants.dart';
 import 'package:shop_app/cache/cache_helper.dart';
 import 'package:shop_app/components/components.dart';
 import 'package:shop_app/cubit/login_cubit/shop_login_cubit.dart';
@@ -28,7 +29,7 @@ class LoginScreen extends StatelessWidget {
               CacheHelper.saveData(
                       key: 'token', value: state.loginModel.data.token)
                   .then((value) {
-                CacheHelper.token = state.loginModel.data.token;
+                token = state.loginModel.data.token;
                 navigateAndFinish(context, ShopLayout());
               });
             } else {

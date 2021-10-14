@@ -8,6 +8,7 @@ import 'package:shop_app/cubit/shop_cubit/shop_state.dart';
 
 // ignore: must_be_immutable
 class SettingsScreen extends StatelessWidget {
+  var formKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -24,37 +25,59 @@ class SettingsScreen extends StatelessWidget {
         return Conditional.single(
           context: context,
           conditionBuilder: (context) =>
-              ShopCubit.get(context).userModel != null
-              ,
-          widgetBuilder: (context) => Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              children: [
-                defaultFormFeild(
-                    controller: nameController,
-                    type: TextInputType.name,
-                    returnValidate: 'name must not be empty!',
-                    label: 'Name',
-                    prefix: Icons.person),
-                SizedBox(height: 20.0),
-                defaultFormFeild(
-                    controller: emailController,
-                    type: TextInputType.emailAddress,
-                    returnValidate: 'email must not be empty!',
-                    label: 'Email',
-                    prefix: Icons.email),
-                SizedBox(height: 20.0),
-                defaultFormFeild(
-                    controller: phoneController,
-                    type: TextInputType.phone,
-                    returnValidate: 'phone must not be empty!',
-                    label: 'Phone',
-                    prefix: Icons.phone),
-                SizedBox(height: 20.0),
-                defaultButton(function: () {
-                  CacheHelper.signOut(context);
-                }, text: 'LOGOUT')
-              ],
+              ShopCubit.get(context).userModel != null,
+          widgetBuilder: (context) => SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    if (state is ShoploadingUpdateState)
+                      LinearProgressIndicator(),
+                    SizedBox(height: 20.0),
+                    defaultFormFeild(
+                        controller: nameController,
+                        type: TextInputType.name,
+                        returnValidate: 'name must not be empty!',
+                        label: 'Name',
+                        prefix: Icons.person),
+                    SizedBox(height: 20.0),
+                    defaultFormFeild(
+                        controller: emailController,
+                        type: TextInputType.emailAddress,
+                        returnValidate: 'email must not be empty!',
+                        label: 'Email',
+                        prefix: Icons.email),
+                    SizedBox(height: 20.0),
+                    defaultFormFeild(
+                        controller: phoneController,
+                        type: TextInputType.phone,
+                        returnValidate: 'phone must not be empty!',
+                        label: 'Phone',
+                        prefix: Icons.phone),
+                    SizedBox(height: 20.0),
+                    defaultButton(
+                        function: () {
+                          if (formKey.currentState!.validate()) {
+                            ShopCubit.get(context).updateUserData(
+                              name: nameController.text,
+                              email: emailController.text,
+                              phone: phoneController.text,
+                            );
+                          }
+                        },
+                        text: 'UPDATE'),
+                    SizedBox(height: 20.0),
+                    defaultButton(
+                        function: () {
+                          CacheHelper.signOut(context);
+                        },
+                        text: 'LOGOUT'),
+                    SizedBox(height: 20.0),
+                  ],
+                ),
+              ),
             ),
           ),
           fallbackBuilder: (context) => Center(

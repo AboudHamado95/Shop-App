@@ -64,3 +64,17 @@ class ShopErrorUserDataState extends ShopStates {
 
   ShopErrorUserDataState(this.error);
 }
+
+class ShoploadingUpdateState extends ShopStates {}
+
+class ShopSuccessUpdateState extends ShopStates {
+  final ShopLoginModel loginModel;
+
+  ShopSuccessUpdateState(this.loginModel);
+}
+
+class ShopErrorUpdateState extends ShopStates {
+  final String error;
+
+  ShopErrorUpdateState(this.error);
+}

@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app/Constants/constants.dart';
 
 import 'package:shop_app/cache/cache_helper.dart';
 import 'package:shop_app/cubit/bloc_observe.dart';
@@ -11,7 +12,7 @@ import 'package:shop_app/screens/authentication/login_screen.dart';
 import 'package:shop_app/screens/on_boarding_screen.dart';
 import 'package:shop_app/screens/layouts/shop_layout.dart';
 import 'package:shop_app/styles/themes.dart';
-
+  
 main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
@@ -20,10 +21,10 @@ main(List<String> args) async {
   Widget? widget;
   bool? isDark = CacheHelper.getData(key: 'isDark');
   var isBoarding = CacheHelper.getData(key: 'onBoarding');
-  CacheHelper.token = CacheHelper.getData(key: 'token');
+  token = CacheHelper.getData(key: 'token');
 
   if (isBoarding != null) {
-    if (CacheHelper.token != null) {
+    if (token != null) {
       widget = ShopLayout();
     } else {
       widget = LoginScreen();
