@@ -71,14 +71,16 @@ class RegisterScreen extends StatelessWidget {
                             type: TextInputType.name,
                             returnValidate: 'please enter your name!',
                             label: 'Name',
-                            prefix: Icons.person),
+                            prefix: Icons.person,
+                            onSubmit: (text) {}),
                         SizedBox(height: 15.0),
                         defaultFormFeild(
                             controller: emailController,
                             type: TextInputType.emailAddress,
                             returnValidate: 'please enter your email address!',
                             label: 'Email Address',
-                            prefix: Icons.email),
+                            prefix: Icons.email,
+                            onSubmit: (text) {}),
                         SizedBox(height: 15.0),
                         defaultFormFeild(
                             controller: passwordController,
@@ -90,6 +92,7 @@ class RegisterScreen extends StatelessWidget {
                               ShopRegisterCubit.get(context)
                                   .changePasswordVisibility();
                             },
+                            onSubmit: (text) {},
                             returnValidate: 'password is too short!',
                             label: 'Password',
                             prefix: Icons.lock_outline),
@@ -98,8 +101,10 @@ class RegisterScreen extends StatelessWidget {
                             controller: phoneController,
                             type: TextInputType.phone,
                             returnValidate: 'please enter your phone!',
+                            onSubmit: (text) {},
                             label: 'Phone',
                             prefix: Icons.phone),
+                            
                         SizedBox(height: 30.0),
                         Conditional.single(
                             context: context,

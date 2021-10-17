@@ -70,6 +70,7 @@ class LoginScreen extends StatelessWidget {
                             controller: emailController,
                             type: TextInputType.emailAddress,
                             returnValidate: 'please enter your email address!',
+                            onSubmit: (text) {},
                             label: 'Email Address',
                             prefix: Icons.email_outlined),
                         SizedBox(height: 15.0),
@@ -82,6 +83,7 @@ class LoginScreen extends StatelessWidget {
                               ShopLoginCubit.get(context)
                                   .changePasswordVisibility();
                             },
+                            onSubmit: (text) {},
                             returnValidate: 'password is too short!',
                             label: 'Password',
                             prefix: Icons.lock_outline),
